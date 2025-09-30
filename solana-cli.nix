@@ -6,7 +6,7 @@
   udev,
   protobuf,
   libcxx,
-  rocksdb_8_11,
+  rocksdb_9_10,
   pkg-config,
   makeWrapper,
   solana-platform-tools,
@@ -39,8 +39,7 @@
     "solana-tokens"
     "solana-genesis"
   ],
-}:
-let
+}: let
   version = solana-source.version;
   src = solana-source.src;
 
@@ -53,7 +52,8 @@ let
   craneLib = crane.overrideToolchain rust;
 
   inherit (darwin.apple_sdk_11_0) Libsystem;
-  inherit (darwin.apple_sdk_11_0.frameworks)
+  inherit
+    (darwin.apple_sdk_11_0.frameworks)
     System
     IOKit
     AppKit
@@ -84,7 +84,7 @@ let
         rustPlatform.bindgenHook
         makeWrapper
       ]
-      ++ lib.optionals stdenv.isLinux [ udev ]
+      ++ lib.optionals stdenv.isLinux [udev]
       ++ lib.optionals stdenv.isDarwin [
         libcxx
         IOKit
@@ -98,8 +98,8 @@ let
     NIX_OUTPATH_USED_AS_RANDOM_SEED = "aaaaaaaaaa";
 
     # Used by build.rs in the rocksdb-sys crate
-    ROCKSDB_LIB_DIR = "${rocksdb_8_11}/lib";
-    ROCKSDB_INCLUDE_DIR = "${rocksdb_8_11}/include";
+    ROCKSDB_LIB_DIR = "${rocksdb_9_10}/lib";
+    ROCKSDB_INCLUDE_DIR = "${rocksdb_9_10}/include";
 
     # For darwin systems
     CPPFLAGS = lib.optionals stdenv.isDarwin "-isystem ${lib.getDev libcxx}/include/c++/v1";
@@ -120,36 +120,36 @@ let
     }
   );
 in
-craneLib.buildPackage (
-  commonArgs
-  // {
-    inherit cargoArtifacts;
+  craneLib.buildPackage (
+    commonArgs
+    // {
+      inherit cargoArtifacts;
 
-    postInstall = ''
-      mkdir -p $out/bin/platform-tools-sdk/sbf
-      cp -a ./platform-tools-sdk/sbf/* $out/bin/platform-tools-sdk/sbf/
+      postInstall = ''
+        mkdir -p $out/bin/platform-tools-sdk/sbf
+        cp -a ./platform-tools-sdk/sbf/* $out/bin/platform-tools-sdk/sbf/
 
-      rust=${solana-platform-tools}/bin/platform-tools-sdk/sbf/dependencies/platform-tools/rust/bin
-      sbfsdkdir=${solana-platform-tools}/bin/platform-tools-sdk/sbf
-      wrapProgram $out/bin/cargo-build-sbf \
-        --prefix PATH : "$rust" \
-        --set SBF_SDK_PATH "$sbfsdkdir" \
-        --append-flags --no-rustup-override \
-        --append-flags --skip-tools-install
-    '';
+        rust=${solana-platform-tools}/bin/platform-tools-sdk/sbf/dependencies/platform-tools/rust/bin
+        sbfsdkdir=${solana-platform-tools}/bin/platform-tools-sdk/sbf
+        wrapProgram $out/bin/cargo-build-sbf \
+          --prefix PATH : "$rust" \
+          --set SBF_SDK_PATH "$sbfsdkdir" \
+          --append-flags --no-rustup-override \
+          --append-flags --skip-tools-install
+      '';
 
-    meta = with lib; {
-      mainProgram = "solana";
-      description = "Web-Scale Blockchain for fast, secure, scalable, decentralized apps and marketplaces. ";
-      homepage = "https://solana.com";
-      license = licenses.asl20;
-      maintainers = with maintainers; [
-        netfox
-        happysalada
-      ];
-      platforms = platforms.unix;
-    };
+      meta = with lib; {
+        mainProgram = "solana";
+        description = "Web-Scale Blockchain for fast, secure, scalable, decentralized apps and marketplaces. ";
+        homepage = "https://solana.com";
+        license = licenses.asl20;
+        maintainers = with maintainers; [
+          netfox
+          happysalada
+        ];
+        platforms = platforms.unix;
+      };
 
-    passthru.updateScript = nix-update-script { };
-  }
-)
+      passthru.updateScript = nix-update-script {};
+    }
+  )
