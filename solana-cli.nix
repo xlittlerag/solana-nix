@@ -43,8 +43,8 @@
   version = solana-source.version;
   src = solana-source.src;
 
-  # Use Rust 1.84.1 as required by Agave
-  rust = rust-bin.stable."1.84.1".default;
+  # Use Rust 1.86.0 as required by Agave
+  rust = rust-bin.stable."1.86.0".default;
   rustPlatform = makeRustPlatform {
     cargo = rust;
     rustc = rust;

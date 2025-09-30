@@ -6,6 +6,7 @@
   lib,
   libclang,
   libedit,
+  openssl,
   python310,
   solana-source,
   udev,
@@ -30,20 +31,13 @@
       aarch64-darwin = "sha256-aJjYD4vhsLcBMAC8hXrecrMvyzbkas9VNF9nnNxtbiE=";
       x86_64-windows = "sha256-7D7NN2tClnQ/UAwKUZEZqNVQxcKWguU3Fs1pgsC5CIk=";
     };
-    # "1.45" = {
-    #   x86_64-linux = "sha256-QGm7mOd3UnssYhPt8RSSRiS5LiddkXuDtWuakpak0Y0=";
-    #   aarch64-linux = "sha256-UzOekFBdjtHJzzytmkQETd6Mrb+cdAsbZBA0kzc75Ws=";
-    #   x86_64-darwin = "sha256-EE7nVJ+8a/snx4ea7U+zexU/vTMX16WoU5Kbv5t2vN8=";
-    #   aarch64-darwin = "sha256-aJjYD4vhsLcBMAC8hXrecrMvyzbkas9VNF9nnNxtbiE=";
-    #   x86_64-windows = "sha256-7D7NN2tClnQ/UAwKUZEZqNVQxcKWguU3Fs1pgsC5CIk=";
-    # };
-    # "1.43" = {
-    #   aarch64-darwin = "sha256-rt9LEz6Dp7bkrqtP9sgkvxY8tG3hqewD3vBXmJ5KMGk=";
-    #   x86_64-linux = "sha256-GhMnfjKNJXpVqT1CZE0Zyp4+NXJG41sUxwHye9DGPt0=";
-    #   aarch64-linux = "sha256-7YSPEaVErLIpDEqHj3oRTBzcP9L8BBzz6wWxZIet9jk=";
-    #   x86_64-darwin = "sha256-qIx8NDM2SIaBOBkxd4jp1oo/kl2lBzEgXz4yqjRioJg=";
-    #   x86_64-windows = "sha256-XX593OJMboZYmvdLSwgygZ/CZVxSUMig82+a8cCF/Dw=";
-    # };
+    "1.48" = {
+      x86_64-linux = "sha256-vHeOPs7B7WptUJ/mVvyt7ue+MqfqAsbwAHM+xlN/tgQ=";
+      aarch64-linux = "sha256-i3I9pwa+DyMJINFr+IucwytzEHdiRZU6r7xWHzppuR4=";
+      x86_64-darwin = "sha256-bXV4S8JeM4RJ7D9u+ruwtNFJ9aq01cFw80sprxB+Xng=";
+      aarch64-darwin = "sha256-ViXRoGlfn0aduNaZgsiXTcSIZO560DmFF5+kh3kYNIA=";
+      x86_64-windows = "sha256-hEVs9TPLX2YY2SBwt8qE8b700yznC71NHszz/zXdpZQ=";
+    };
   };
   # The system string is inverted, and each bundle has a different hash
   releaseSystem = systemMapping."${system}";
@@ -76,7 +70,7 @@ in
         xz
         python310
       ]
-      ++ lib.optionals stdenv.isLinux [udev];
+      ++ lib.optionals stdenv.isLinux [openssl udev];
 
     installPhase = ''
       platformtools=$out/bin/platform-tools-sdk/sbf/dependencies/platform-tools

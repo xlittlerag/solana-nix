@@ -25,18 +25,12 @@
       platform-tools = solana-platform-tools.override {version = "1.51";};
       patches = [./patches/anchor-cli/0.31.1.patch];
     };
-    # "0.31.0" = {
-    #   hash = "sha256-CaBVdp7RPVmzzEiVazjpDLJxEkIgy1BHCwdH2mYLbGM=";
-    #   rust = rust-bin.stable."1.85.0".default;
-    #   platform-tools = solana-platform-tools.override {version = "1.45";};
-    #   patches = [./patches/anchor-cli/0.31.0.patch];
-    # };
-    # "0.30.1" = {
-    #   hash = "sha256-3fLYTJDVCJdi6o0Zd+hb9jcPDKm4M4NzpZ8EUVW/GVw=";
-    #   rust = rust-bin.stable."1.78.0".default;
-    #   platform-tools = solana-platform-tools.override {version = "1.43";};
-    #   patches = [./patches/anchor-cli/0.30.1.patch];
-    # };
+    "0.30.1" = {
+      hash = "sha256-3fLYTJDVCJdi6o0Zd+hb9jcPDKm4M4NzpZ8EUVW/GVw=";
+      rust = rust-bin.stable."1.78.0".default;
+      platform-tools = solana-platform-tools.override {version = "1.43";};
+      patches = [./patches/anchor-cli/0.30.1.patch];
+    };
   };
   versionDeps = versionsDeps.${version};
 
